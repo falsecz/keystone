@@ -82,6 +82,9 @@ module.exports = Field.create({
 			props.onChange = this.handleFieldChange.bind(this, index);
 			props.mode = 'edit';
 			props.inputNamePrefix = `${this.props.path}[${index}]`;
+			if (this.props.inputNamePrefix) {
+				props.inputNamePrefix = `${this.props.inputNamePrefix}[${this.props.path}][${index}]`;
+			}
 			props.key = field.path;
 			// TODO ?
 			// if (props.dependsOn) {
@@ -100,7 +103,11 @@ module.exports = Field.create({
 			<div>
 				{value.map((value, index) => {
 					const { id, _isNew } = value;
-					const name = !_isNew && `${path}[${index}][id]`;
+					var name = !_isNew && `${path}[${index}][id]`;
+					if (this.props.inputNamePrefix) {
+						name = `${this.props.inputNamePrefix}[${path}][${index}]`;
+					}
+
 					const onRemove = e => this.removeItem(index);
 
 					return (
